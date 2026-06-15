@@ -1,3 +1,4 @@
+Set-Content src/components/layout/BottomNav.tsx @'
 import { NavLink } from 'react-router-dom'
 import { Home, Users, Scissors, QrCode, BarChart2, User } from 'lucide-react'
 
@@ -29,3 +30,4 @@ export default function BottomNav() {
     </nav>
   )
 }
+'@

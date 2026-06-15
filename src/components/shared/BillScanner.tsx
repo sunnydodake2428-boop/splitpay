@@ -49,7 +49,14 @@ export default function BillScanner({ onAmountDetected }: BillScannerProps) {
       setStatus('Extracting total amount...')
 
       const data = await response.json()
-      const text = data?.text?.trim()
+console.log('Scan response:', data)
+const text = data?.text?.trim()
+
+if (data?.error) {
+  setStatus(`Error: ${data.error}`)
+  setScanning(false)
+  return
+}
 
       if (text && /^\d+(\.\d{1,2})?$/.test(text)) {
         setStatus(`Detected: ₹${text}`)

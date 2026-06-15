@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { Plus, Users, QrCode, BarChart2, ArrowRight, TrendingUp } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useUser } from '@clerk/clerk-react'
+import { motion, type Variants } from 'framer-motion'
 
 const actions = [
   { icon: Plus, label: 'New Split', color: 'bg-violet-50 text-violet-600', path: '/split' },
@@ -18,9 +19,12 @@ const containerVariants = {
   }
 }
 
+import { type Variants } from 'framer-motion'
+
+
 const itemVariants = {
   hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } }
+  visible: { opacity: 1, y: 0, transition: { duration: 0.4 } }
 }
 
 export default function Home() {
