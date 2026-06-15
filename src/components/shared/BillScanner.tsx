@@ -36,51 +36,20 @@ export default function BillScanner({ onAmountDetected }: BillScannerProps) {
 
     try {
       const base64 = await fileToBase64(file)
-      const mediaType = file.type as 'image/jpeg' | 'image/png' | 'image/webp'
+      const mediaType = file.type
 
       setStatus('AI is reading your bill...')
 
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
+      const response = await fetch('/api/scan-bill', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-6',
-          max_tokens: 256,
-          messages: [
-            {
-              role: 'user',
-              content: [
-                {
-                  type: 'image',
-                  source: {
-                    type: 'base64',
-                    media_type: mediaType,
-                    data: base64,
-                  },
-                },
-                {
-                  type: 'text',
-                  text: `Look at this restaurant bill image carefully.
-Find the FINAL amount the customer must pay.
-Rules:
-- It is usually at the BOTTOM of the bill
-- It is labeled "Total", "Grand Total", "Net Payable", "Amount Due" or just "Total"
-- Do NOT return subtotal, food total, or any tax amount separately
-- The final Total includes all taxes and is the largest bottom-most amount
-- Return ONLY the number like 357 or 357.00, nothing else`,
-                },
-              ],
-            },
-          ],
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ base64, mediaType }),
       })
 
       setStatus('Extracting total amount...')
 
       const data = await response.json()
-      const text = data?.content?.[0]?.text?.trim()
+      const text = data?.text?.trim()
 
       if (text && /^\d+(\.\d{1,2})?$/.test(text)) {
         setStatus(`Detected: ₹${text}`)
@@ -117,7 +86,7 @@ Rules:
       <div className="flex items-center justify-between mb-3">
         <div>
           <p className="text-sm font-medium text-blue-700">AI Bill Scanner</p>
-          <p className="text-xs text-blue-400">Powered by Claude AI</p>
+          <p className="text-xs text-blue-400">Powered by Groq AI</p>
         </div>
         {preview && (
           <button onClick={reset} className="text-blue-400">
