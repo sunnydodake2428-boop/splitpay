@@ -1,4 +1,3 @@
-Set-Content src/components/layout/BottomNav.tsx @'
 import { NavLink } from 'react-router-dom'
 import { Home, Users, Scissors, QrCode, BarChart2, User } from 'lucide-react'
 
@@ -13,7 +12,7 @@ const links = [
 
 export default function BottomNav() {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around items-center h-16 z-50">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 flex justify-around items-center h-16 z-50">
       {links.map(({ to, icon: Icon, label }) => (
         <NavLink
           key={to}
@@ -30,4 +29,3 @@ export default function BottomNav() {
     </nav>
   )
 }
-'@
