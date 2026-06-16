@@ -235,7 +235,7 @@ const shareWhatsApp = () => {
 
         {/* Share buttons */}
         {total && count && (
-          <div className="flex gap-3">
+          <div className="flex gap-3 mt-4">
             <button onClick={shareWhatsApp} className="flex-1 flex items-center justify-center gap-2 bg-green-500 text-white rounded-xl py-3 text-sm font-medium"><MessageCircle size={16} /> WhatsApp</button>
             <button onClick={shareNative} className="flex-1 flex items-center justify-center gap-2 bg-violet-600 text-white rounded-xl py-3 text-sm font-medium"><Share2 size={16} /> Share</button>
             <button onClick={handleExportPDF} className="flex-1 flex items-center justify-center gap-2 border border-gray-200 text-gray-600 rounded-xl py-3 text-sm font-medium"><Download size={16} /> PDF</button>
