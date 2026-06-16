@@ -41,20 +41,30 @@ export default function Split() {
     setParticipants([])
   }
 
-  const shareWhatsApp = () => {
-    if (!total) return
-    let message = `*Split Summary*\nTotal Bill: ₹${total}`
-    if (parseFloat(tip) > 0) message += `\nTip (${tip}%): ₹${tipAmount.toFixed(2)}`
-    message += `\nGrand Total: ₹${grandTotal.toFixed(2)}\n\n`
-    if (splitMode === 'equal') {
-      message += `Each person pays: *₹${perPerson.toFixed(2)}*\n\n`
-      participants.forEach(p => { if (p.name) message += `• ${p.name}: ₹${perPerson.toFixed(2)}\n` })
-    } else {
-      message += `Individual amounts:\n`
-      participants.forEach(p => { if (p.name) message += `• ${p.name}: ₹${parseFloat(p.custom || '0').toFixed(2)}\n` })
-    }
+const shareWhatsApp = () => {
+  if (!total || !count) return
+  const upiId = localStorage.getItem('splitpay_upi') || ''
+
+  if (splitMode === 'equal') {
+    const amount = perPerson.toFixed(2)
+    let message = `*SplitPay Summary*\nTotal: Rs.${grandTotal.toFixed(2)}\nEach person pays: *Rs.${amount}*\n\n`
+    participants.forEach(p => {
+      const name = p.name || `Person ${p.id}`
+      const link = upiId ? `upi://pay?pa=${upiId}&am=${amount}&tn=SplitPay&cu=INR` : ''
+      message += `*${name}* — Rs.${amount}\n${link ? `Pay: ${link}\n` : ''}\n`
+    })
+    window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank')
+  } else {
+    let message = `*SplitPay Summary*\nTotal: Rs.${grandTotal.toFixed(2)}\n\n`
+    participants.forEach(p => {
+      const name = p.name || `Person ${p.id}`
+      const amount = parseFloat(p.custom || '0').toFixed(2)
+      const link = upiId ? `upi://pay?pa=${upiId}&am=${amount}&tn=SplitPay&cu=INR` : ''
+      message += `*${name}* — Rs.${amount}\n${link ? `Pay: ${link}\n` : ''}\n`
+    })
     window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank')
   }
+}
 
   const shareNative = () => {
     if (navigator.share) navigator.share({ title: 'Split Summary', text: `Total: ₹${grandTotal.toFixed(2)} | Per person: ₹${perPerson.toFixed(2)}` })
