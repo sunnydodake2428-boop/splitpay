@@ -4,7 +4,7 @@ import { Trash2, MessageCircle, Share2, Download } from 'lucide-react'
 import { exportSplitPDF } from '@/utils/exportPDF'
 import BillScanner from '@/components/shared/BillScanner'
 import PageHeader from '@/components/layout/PageHeader'
-
+import SplitReceipt from '@/components/shared/SplitReceipt'
 interface Participant { id: number; name: string; custom: string }
 type SplitMode = 'equal' | 'unequal'
 
@@ -221,6 +221,17 @@ const shareWhatsApp = () => {
             </div>
           </motion.div>
         )}
+        {total && count && (
+  <SplitReceipt
+    total={total}
+    grandTotal={grandTotal}
+    participants={participants}
+    splitMode={splitMode}
+    perPerson={perPerson}
+    tip={tip}
+    tipAmount={tipAmount}
+  />
+)}
 
         {/* Share buttons */}
         {total && count && (
