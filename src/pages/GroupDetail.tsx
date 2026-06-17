@@ -1,8 +1,7 @@
 
 import { motion } from 'framer-motion'
 import { Plus, Receipt } from 'lucide-react'
-import { useParams } from 'react-router-dom'
-import { useState } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 import NudgeButton from '@/components/shared/NudgeButton'
 import PageHeader from '@/components/layout/PageHeader'
 
